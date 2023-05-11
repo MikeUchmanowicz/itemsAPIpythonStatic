@@ -1,53 +1,50 @@
 html 
 {
     margin: 2%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
-
-#createform, #editform
-{
-    padding: 1%;
-    width: 50%;
-    border: 1px solid black;
-    border-radius: 5px;
-}
-
 .error 
 {
     color: red;
 }
-
 .input 
 {
     margin: 5px;
     padding-top: 5px;
 }
-
 .row
 {
     border : 1px solid grey;
-    border-radius: 5px;
-    vertical-align: center;
+    border-radius: 15px;
+}
+.row:hover
+{
+    background-color: lightgray;
+}
+.rowcol
+{
+    margin: auto;
 }
 
 #deleteBtn {
-    border-radius: 5px;
+    margin-left: 1%;
 }
-
-#editBtn
+.btn
 {
-    border-radius: 5px;
+    border-radius: 10px;
+    margin: 5%;
 }
 
 .navbar {
     padding-left: 1%;
     padding-right: 1%;
     margin-bottom: 1%;
-    border-radius: 10px;
+    border-radius: 15px;
 }
 
 .form-control
 {
-    border: 1px solid darkgrey;
+    border: 1px solid grey;
 }
 
 .form-group {
@@ -56,4 +53,24 @@ html
 
 #buttondiv {
     padding-right: 0px;
+}
+
+#item
+{
+    width: 50%;
+    margin: auto;
+}
+
+.content
+{
+    margin: auto;
+    padding: 1%;
+    width: 50%;
+    border: 1px solid lightgrey;
+    border-radius: 15px;
+}
+
+.list-group-item
+{
+    text-align: left;
 }

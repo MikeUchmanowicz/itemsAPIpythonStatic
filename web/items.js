@@ -1,13 +1,10 @@
 //setup page
-const app = document.getElementById('items')
-const container = document.createElement('div')
+const container = document.getElementById('items')
 container.setAttribute('class', 'container')
-app.appendChild(container)
 
 // define errors
 // items empty
 const itemserror = document.getElementById('itemserror');
-itemserror.textContent = "Current Inventory";
 
 // form validation message
 const formerror = document.getElementById('formerror');
@@ -28,7 +25,7 @@ function fetchItems(){
         errorMessage = document.createElement('div');
         errorMessage.setAttribute('class', 'error');
         errorMessage.textContent = "Error: " + error;
-        app.appendChild(errorMessage);
+        container.appendChild(errorMessage);
     });
 }
 
@@ -46,38 +43,41 @@ function displayItems(data) {
     // dynamically create list of items and their markup
     data.forEach((item) => {
 
-        const row = document.createElement('div'); 
-        row.setAttribute('class', 'row');
+        const itemrow = document.createElement('div');
+        itemrow.setAttribute('class', 'row');
+        // itemrow.addEventListener('click', () => {
+            // location.href=`oneItem.html?id=${item._id}`;
+        // });
 
         const id = document.createElement('div');
-        id.setAttribute('class', 'col-3');
+        id.setAttribute('class', 'col-3 rowcol');
         id.textContent = "ID: " + item._id;
         
         const name = document.createElement('div');
-        name.setAttribute('class', 'col-2');
+        name.setAttribute('class', 'col-2 rowcol');
         name.textContent = "Name: " + item.name;
 
         const desc = document.createElement('div');
-        desc.setAttribute('class', 'col-3');
+        desc.setAttribute('class', 'col-2 rowcol');
         desc.textContent =  "Desc: " + item.desc;
 
         const price = document.createElement('div');
-        price.setAttribute('class', 'col-1');
+        price.setAttribute('class', 'col-1 rowcol');
         price.textContent =  "Price: " + item.price;
 
         const qty = document.createElement('div');
-        qty.setAttribute('class', 'col-1');
+        qty.setAttribute('class', 'col-1 rowcol');
         qty.textContent =  "Qty: " + item.quantity;
 
         buttondiv = document.createElement('div');
         buttondiv.setAttribute('id', 'buttondiv');
-        buttondiv.setAttribute('class', 'col-2');
+        buttondiv.setAttribute('class', 'col-2 rowcol');
         buttondiv.setAttribute('align', 'right');
 
         // edit button
         const editbtn = document.createElement('button');
         editbtn.setAttribute('id', 'editBtn');
-        editbtn.setAttribute('class', 'btn btn-primary');
+        editbtn.setAttribute('class', 'btn btn-secondary');
         editbtn.textContent = "Edit";
 
         // edit handler, puts data into modal
@@ -113,21 +113,20 @@ function displayItems(data) {
         });
 
         // append to container
-        row.appendChild(id);
-        row.appendChild(name);
-        row.appendChild(desc);
-        row.appendChild(price);
-        row.appendChild(qty);
-        row.appendChild(buttondiv);
+        itemrow.appendChild(id);
+        itemrow.appendChild(name);
+        itemrow.appendChild(desc);
+        itemrow.appendChild(price);
+        itemrow.appendChild(qty);
+        itemrow.appendChild(buttondiv);
         buttondiv.appendChild(editbtn);
         buttondiv.appendChild(delbtn);
 
-        container.appendChild(row);
+        container.appendChild(itemrow);
 
         br = document.createElement('br');
         container.appendChild(br);
     });
-
 }
 
 //save modal button and handler
@@ -227,5 +226,6 @@ function alertbootstrap(type, content, refresh=false)
         $(this).alert('close');
     });
 }
+
 
 
