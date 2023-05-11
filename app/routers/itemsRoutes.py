@@ -18,6 +18,7 @@ async def read_items(request: Request):
     result = request.app.database["items"].find()
     list_result = list(result)
 
+    # convert ObjectId to string for all results in list of result dict
     list_result = [ {**result, "_id": str(result["_id"])} for result in list_result ]
     
     return list_result
@@ -37,7 +38,7 @@ async def read_item_by_id(request: Request, id: str):
     
     raise HTTPException(status_code=404, detail=f"Item with id {id} not found")
     
-#creates an item, returns an item
+#creates an item, returns the created item
 @router.post("/", response_description="Add new Item with request body")
 async def create_item(request: Request, body=Body(...)):
     inserted_item = request.app.database["items"].insert_one(body)
@@ -49,7 +50,7 @@ async def create_item(request: Request, body=Body(...)):
     
     raise HTTPException(status_code=500, detail="Creation Failed")
 
-#updates an item, returns an item
+#updates an item, returns the updated item
 @router.put("/{id}", response_description="Edit Item with ID parameter")
 async def update_item(request: Request, id: str, body = Body(...)):
     

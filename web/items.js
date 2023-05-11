@@ -193,7 +193,11 @@ function handleEdit(id, name, desc, price, qty)
     })  //redirect
     .then(function(response) {
         $('#Modal').modal('hide');
-        alertbootstrap("success", `Item ${id}: Edited Successfully!`, refresh=true);
+        if (response.status == 404 || response.status == 400){
+            alertbootstrap("danger", `Item ${id}: Failed to Edit! Status: ${response.status}: ${response.statusText}`);
+            return;
+        }
+        alertbootstrap("success", `Item ${id}: Edited Successfully! Status: ${response.status}: ${response.statusText}`, refresh=true);
     }) //catch error, display message
     .catch(error => {
         console.log(error);

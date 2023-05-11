@@ -47,7 +47,6 @@ if (editForm)
 {
     editForm.onsubmit = function (e) {
         e.preventDefault();
-
         handleEdit(editForm);
     };
 }
