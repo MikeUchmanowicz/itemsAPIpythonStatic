@@ -12,9 +12,7 @@ formerror.textContent = "";
 
 urlParam = new URLSearchParams(window.location.search);
 if (urlParam.has('alert'))
-{
     alertbootstrap(urlParam.get('type'), urlParam.get('content'));
-}
 
 function fetchItems(){
     //fetch data from api
@@ -151,8 +149,10 @@ saveEditModal.addEventListener('click', () => {
             for (i in listEmpty)
                 formerror.textContent += listEmpty[i] + ", ";
             
-        else   //else, post data to api
+        else{   //else, post data to api
+            formerror.textContent = "";
             handleEdit(id, name, desc, price, qty);
+        }
     }
     return
 });
