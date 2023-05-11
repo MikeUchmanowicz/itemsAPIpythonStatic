@@ -1,0 +1,49 @@
+html 
+{
+    margin: 2%;
+}
+
+#createform, #editform
+{
+    padding: 1%;
+    width: 50%;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.error 
+{
+    color: red;
+}
+
+.input 
+{
+    margin: 5px;
+    padding-top: 5px;
+}
+
+.row
+{
+    border : 1px solid grey;
+    border-radius: 5px;
+}
+
+#deleteBtn {
+    border-radius: 5px;
+}
+
+#editBtn
+{
+    border-radius: 5px;
+}
+
+.navbar {
+    padding-left: 1%;
+    padding-right: 1%;
+    margin-bottom: 1%;
+    border-radius: 10px;
+}
+
+#buttondiv {
+    padding-right: 0px;
+}
