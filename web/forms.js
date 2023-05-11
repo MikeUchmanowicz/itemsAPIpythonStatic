@@ -3,13 +3,15 @@ app = document.getElementById('root');
 const createForm = document.getElementById('createform');
 const editForm = document.getElementById('editform');
 
-// create form handler
-createForm.onsubmit = function (e) {
-    e.preventDefault();
-    handleCreate(createForm);
-};
+// if create form exists, handle create
+if (createForm) {
+    createForm.onsubmit = function (e) {
+        e.preventDefault();
+        handleCreate(createForm);
+    };
+}
 
-// handle create from create form
+// handle create
 function handleCreate(form)
 {
     let data = new FormData(form);
@@ -40,14 +42,17 @@ function handleCreate(form)
     });
 }
 
-// edit form handler
-editForm.onsubmit = function (e) {
-    e.preventDefault();
+// if edit form exists, handle edit
+if (editForm)
+{
+    editForm.onsubmit = function (e) {
+        e.preventDefault();
 
-    handleEdit(editForm);
-};
+        handleEdit(editForm);
+    };
+}
 
-// handle edit from edit form
+// handle edit
 function handleEdit(form)
 {
     let data = new FormData(form);
@@ -78,9 +83,10 @@ function handleEdit(form)
     });
 }
 
-// bootstrap alert, redirects if redirect=true
+// bootstrap alert, redirects page if redirect=true
 function alertbootstrap(type, content, redirect=false)
 {
+    // define alert after redirect tthrough url parameters
     if (redirect)
         location.href=`items.html?alert=true&type=${type}&content=${content}`;
     else{
@@ -91,6 +97,7 @@ function alertbootstrap(type, content, redirect=false)
         alert.textContent = content;
         app.prepend(alert);
 
+        // close alert after 2.5 seconds
         $(".alert").delay(2500).slideUp(1000, function() {
             $(this).alert('close');    
         });
