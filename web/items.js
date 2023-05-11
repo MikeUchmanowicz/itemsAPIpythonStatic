@@ -10,6 +10,12 @@ error.textContent = "Current Inventory";
 const formerror = document.getElementById('formerror');
 formerror.textContent = "";
 
+urlParam = new URLSearchParams(window.location.search);
+if (urlParam.has('alert'))
+{
+    alertbootstrap(urlParam.get('type'), urlParam.get('content'));
+}
+
 function fetchItems(){
     //fetch data from api
     fetch('http://127.0.0.1:8000/items')
@@ -132,10 +138,19 @@ saveEditModal.addEventListener('click', () => {
         price = $('#priceInput').val();
         qty = $('#quantityInput').val();
 
-        if ( name == "" || desc == "" || price == "" || qty == "")
-        {
-            formerror.textContent = "Please fill out all fields";
-        }
+        listKeys = ["Iid", "Name", "Desc", "Price", "Quantity"];
+        listValues = [id, name, desc, price, qty];
+        listEmpty = [];
+        formerror.textContent = "Please Fill Out: "
+
+        for (i in listValues)
+            if (listValues[i] == "")
+                listEmpty.push(listKeys[i]);
+
+        if (listEmpty.length > 0)
+            for (i in listEmpty)
+                formerror.textContent += listEmpty[i] + ", ";
+            
         else   //else, post data to api
             handleEdit(id, name, desc, price, qty);
     }
@@ -173,12 +188,6 @@ function handleEdit(id, name, desc, price, qty)
         console.log(error);
         alertbootstrap("danger", `Item ${id}: Failed to Edit! Error: ${error}}`);
     });
-}
-
-urlParam = new URLSearchParams(window.location.search);
-if (urlParam.has('alert'))
-{
-    alertbootstrap(urlParam.get('type'), urlParam.get('content'));
 }
 
 function alertbootstrap(type, content, refresh=false)
