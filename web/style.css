@@ -45,6 +45,15 @@ html
     border-radius: 10px;
 }
 
+.form-control
+{
+    border: 1px solid darkgrey;
+}
+
+.form-group {
+    padding-top: 1%;
+}
+
 #buttondiv {
     padding-right: 0px;
 }

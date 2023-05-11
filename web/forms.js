@@ -3,13 +3,13 @@ app = document.getElementById('root');
 const createForm = document.getElementById('createform');
 const editForm = document.getElementById('editform');
 
-if (createForm) {
-    createForm.onsubmit = function (e) {
-        e.preventDefault();
-        handleCreate(createForm);
-    };
-}
+// create form handler
+createForm.onsubmit = function (e) {
+    e.preventDefault();
+    handleCreate(createForm);
+};
 
+// handle create from create form
 function handleCreate(form)
 {
     let data = new FormData(form);
@@ -40,16 +40,14 @@ function handleCreate(form)
     });
 }
 
+// edit form handler
+editForm.onsubmit = function (e) {
+    e.preventDefault();
 
-if (editForm)
-{
-    editForm.onsubmit = function (e) {
-        e.preventDefault();
+    handleEdit(editForm);
+};
 
-        handleEdit(editForm);
-    };
-}
-
+// handle edit from edit form
 function handleEdit(form)
 {
     let data = new FormData(form);
@@ -80,7 +78,7 @@ function handleEdit(form)
     });
 }
 
-
+// bootstrap alert, redirects if redirect=true
 function alertbootstrap(type, content, redirect=false)
 {
     if (redirect)

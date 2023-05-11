@@ -5,22 +5,29 @@ container.setAttribute('class', 'container')
 app.appendChild(container)
 
 // define errors
-const error = document.getElementById('error');
-error.textContent = "Current Inventory";
+// items empty
+const itemserror = document.getElementById('itemserror');
+itemserror.textContent = "Current Inventory";
+
+// form validation message
 const formerror = document.getElementById('formerror');
 formerror.textContent = "";
 
+//check if alert is in url, if so, display alert
 urlParam = new URLSearchParams(window.location.search);
 if (urlParam.has('alert'))
     alertbootstrap(urlParam.get('type'), urlParam.get('content'));
 
+//fetch data from api
 function fetchItems(){
-    //fetch data from api
     fetch('http://127.0.0.1:8000/items')
     .then(data => data.json())
     .then(json => displayItems(json))
     .catch(error => {
-        alert("Error: " + error);
+        // error message for API
+        errorMessage = document.createElement('div');
+        errorMessage.setAttribute('class', 'error');
+        errorMessage.textContent = "Error: " + error;
         app.appendChild(errorMessage);
     });
 }
@@ -30,12 +37,13 @@ fetchItems();
 //dynamically create list of items according to data fetched from api
 function displayItems(data) {
     
-    if (data.length === 0) {
-        error.setAttribute('class', 'error');
-        error.textContent = "No Items Found";
+    if (data.length === 0) {    //if no items, display error
+        itemserror.setAttribute('class', 'error');
+        itemserror.textContent = "No Items Found";
         return;
     }
 
+    // dynamically create list of items and their markup
     data.forEach((item) => {
 
         const row = document.createElement('div'); 
@@ -122,29 +130,32 @@ function displayItems(data) {
 
 }
 
-//save modal button
+//save modal button and handler
 saveEditModal = document.getElementById('saveModal');
 saveEditModal.addEventListener('click', () => {
 
     const editForm = document.getElementById('form');
     
     if (editForm)
-    {  //if any fields are empty, display error
+    {  //grab fields
         id = $('#idInput').val();
         name = $('#nameInput').val();
         desc = $('#descInput').val();
         price = $('#priceInput').val();
         qty = $('#quantityInput').val();
 
+        //split into 2 piece "dict"
         listKeys = ["Iid", "Name", "Desc", "Price", "Quantity"];
         listValues = [id, name, desc, price, qty];
         listEmpty = [];
         formerror.textContent = "Please Fill Out: "
 
+        // check for empty values, add key to empty list
         for (i in listValues)
             if (listValues[i] == "")
                 listEmpty.push(listKeys[i]);
 
+        // if list of empty values, add key of value to error message
         if (listEmpty.length > 0)
             for (i in listEmpty)
                 formerror.textContent += listEmpty[i] + ", ";
@@ -157,7 +168,7 @@ saveEditModal.addEventListener('click', () => {
     return
 });
 
-//close modal button click
+//close modal button click, also empties form errors
 closeModal = document.getElementById('closeModal');
 closeModal.addEventListener('click', () => {
     $('#Modal').modal('hide');
@@ -190,6 +201,7 @@ function handleEdit(id, name, desc, price, qty)
     });
 }
 
+// bootstrap alert, refreshes page if refresh=true
 function alertbootstrap(type, content, refresh=false)
 {
     if (refresh)
@@ -198,6 +210,7 @@ function alertbootstrap(type, content, refresh=false)
         fetchItems();
     }
 
+    // create alert
     const app = document.getElementById('root');
     const alert = document.createElement('div');
     alert.setAttribute('class', 'alert alert-' + type + ' alert-dismissible fade show');
@@ -205,6 +218,7 @@ function alertbootstrap(type, content, refresh=false)
     alert.textContent = content;
     app.prepend(alert);
 
+    // close alert after 2.5 seconds
     $(".alert").delay(2500).slideUp(1000, function() {
         $(this).alert('close');
     });
