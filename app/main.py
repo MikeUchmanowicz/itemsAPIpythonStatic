@@ -1,9 +1,13 @@
 from fastapi import FastAPI 
-from routers.itemsRoutes import router as itemsRouter
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from uvicorn import run
 from pymongo import MongoClient
 from dotenv import dotenv_values
+from routers.itemsRoutes import router as itemsRouter
+
 import os
+
 
 # get environment variables
 config = dotenv_values(".env")
@@ -36,3 +40,8 @@ def startup_db_client():
 @app.on_event("shutdown")
 def shutdown_db_client():
     app.client.close()
+    
+app.mount("/static", StaticFiles(directory="../static"), name="static")
+
+if __name__ == "__main__":
+    run("main:app", host="0.0.0.0", port=8080, log_level="info")
