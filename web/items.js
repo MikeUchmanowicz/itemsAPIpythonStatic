@@ -74,7 +74,7 @@ function displayItems(data) {
         qty.setAttribute('class', 'col-md-auto rowcol');
         qty.innerHTML =  "<b>Qty:&nbsp;</b>" + item.quantity;
 
-        buttondiv = document.createElement('div');
+        let buttondiv = document.createElement('div');
         buttondiv.setAttribute('id', 'buttondiv');
         buttondiv.setAttribute('class', 'col-md-auto rowcol');
 
@@ -138,26 +138,26 @@ function handleEdit(){
     
     if (editForm)
     {  //grab fields
-        id = $('#idInput').val();
-        name = $('#nameInput').val();
-        desc = $('#descInput').val();
-        price = $('#priceInput').val();
-        qty = $('#quantityInput').val();
+        let id = $('#idInput').val();
+        let name = $('#nameInput').val();
+        let desc = $('#descInput').val();
+        let price = $('#priceInput').val();
+        let qty = $('#quantityInput').val();
 
         //split into 2 piece "dict"
-        listKeys = ["Id", "Name", "Desc", "Price", "Quantity"];
-        listValues = [id, name, desc, price, qty];
-        listEmpty = [];
+        let listKeys = ["Id", "Name", "Desc", "Price", "Quantity"];
+        let listValues = [id, name, desc, price, qty];
+        let listEmpty = [];
         formerror.textContent = "Please Fill Out: "
 
         // check for empty values, add key to empty list
-        for (i in listValues)
+        for (let i in listValues)
             if (listValues[i] == "")
                 listEmpty.push(listKeys[i]);
 
         // if list of empty values, add key of value to error message
         if (listEmpty.length > 0)
-            for (i in listEmpty)
+            for (let i in listEmpty)
                 formerror.textContent += listEmpty[i] + ", ";
             
         else{   //else, post data to api
@@ -214,8 +214,8 @@ function alertbootstrap(type, content, refresh=false)
     }
 
     // create alert
-    const app = document.getElementById('root');
-    const alert = document.createElement('div');
+    let  app = document.getElementById('root');
+    let  alert = document.createElement('div');
     alert.setAttribute('class', 'alert alert-' + type + ' alert-dismissible fade show');
     alert.setAttribute('role', 'alert');
     alert.textContent = content;

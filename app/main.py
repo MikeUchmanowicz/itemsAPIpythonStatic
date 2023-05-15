@@ -41,7 +41,7 @@ def startup_db_client():
 def shutdown_db_client():
     app.client.close()
     
-app.mount("/static", StaticFiles(directory="../static"), name="static")
+app.mount("/static", StaticFiles(directory="../web"), name="static")
 
 if __name__ == "__main__":
     run("main:app", host="0.0.0.0", port=8080, log_level="info")
