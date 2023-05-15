@@ -1,21 +1,10 @@
-const createForm = document.getElementById('createform');
-const editForm = document.getElementById('editform');
-
-// if create form exists, handle create
-if (createForm) {
-    createForm.onsubmit = function (e) {
-        e.preventDefault();
-        handleCreate(createForm);
-    };
-}
-
 // handle create
 function handleCreate(form)
 {
     let data = new FormData(form);
     let formData = Object.fromEntries(data);
     
-    fetch('http://127.0.0.1:8000/items/', {
+    fetch('http://18.214.23.15:8080/items/', {
         method: 'POST',
         body: JSON.stringify({
             name: formData.name,
@@ -40,22 +29,13 @@ function handleCreate(form)
     });
 }
 
-// if edit form exists, handle edit
-if (editForm)
-{
-    editForm.onsubmit = function (e) {
-        e.preventDefault();
-        handleEdit(editForm);
-    };
-}
-
 // handle edit
 function handleEdit(form)
 {
     let data = new FormData(form);
     let formData = Object.fromEntries(data);
 
-    fetch('http://127.0.0.1:8000/items/'+ formData.id, {
+    fetch('http://18.214.23.15:8080/items/'+ formData.id, {
         method: 'PUT',
         body: JSON.stringify({
             name: formData.name,

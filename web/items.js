@@ -136,36 +136,32 @@ function displayItems(data) {
 //save modal button and handler
 function handleEdit(){
     
-    if (editForm)
-    {  //grab fields
-        let id = $('#idInput').val();
-        let name = $('#nameInput').val();
-        let desc = $('#descInput').val();
-        let price = $('#priceInput').val();
-        let qty = $('#quantityInput').val();
+    let id = $('#idInput').val();
+    let name = $('#nameInput').val();
+    let desc = $('#descInput').val();
+    let price = $('#priceInput').val();
+    let qty = $('#quantityInput').val();
 
-        //split into 2 piece "dict"
-        let listKeys = ["Id", "Name", "Desc", "Price", "Quantity"];
-        let listValues = [id, name, desc, price, qty];
-        let listEmpty = [];
-        formerror.textContent = "Please Fill Out: "
+    //split into 2 piece "dict"
+    let listKeys = ["Id", "Name", "Desc", "Price", "Quantity"];
+    let listValues = [id, name, desc, price, qty];
+    let listEmpty = [];
+    formerror.textContent = "Please Fill Out: "
 
-        // check for empty values, add key to empty list
-        for (let i in listValues)
-            if (listValues[i] == "")
-                listEmpty.push(listKeys[i]);
+    // check for empty values, add key to empty list
+    for (let i in listValues)
+        if (listValues[i] == "")
+            listEmpty.push(listKeys[i]);
 
-        // if list of empty values, add key of value to error message
-        if (listEmpty.length > 0)
-            for (let i in listEmpty)
-                formerror.textContent += listEmpty[i] + ", ";
-            
-        else{   //else, post data to api
-            formerror.textContent = "";
-            editItem(id, name, desc, price, qty);
-        }
+    // if list of empty values, add key of value to error message
+    if (listEmpty.length > 0)
+        for (let i in listEmpty)
+            formerror.textContent += listEmpty[i] + ", ";
+        
+    else{   //else, post data to api
+        formerror.textContent = "";
+        editItem(id, name, desc, price, qty);
     }
-    return
 };
 
 //close modal button click, also empties form errors
