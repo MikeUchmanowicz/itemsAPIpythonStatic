@@ -1,5 +1,3 @@
-app = document.getElementById('root');
-
 const createForm = document.getElementById('createform');
 const editForm = document.getElementById('editform');
 
@@ -89,7 +87,7 @@ function alertbootstrap(type, content, redirect=false)
     if (redirect)
         location.href=`items.html?alert=true&type=${type}&content=${content}`;
     else{
-        const app = document.getElementById('root');
+        let app = document.getElementById('root');
         const alert = document.createElement('div');
         alert.setAttribute('class', 'alert alert-' + type + ' alert-dismissible fade show');
         alert.setAttribute('role', 'alert');

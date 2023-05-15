@@ -3,12 +3,13 @@ const container = document.getElementById('items')
 container.setAttribute('class', 'container')
 
 // define errors
-// items empty
 const itemserror = document.getElementById('itemserror');
 
 // form validation message
 const formerror = document.getElementById('formerror');
 formerror.textContent = "";
+
+const editForm = document.getElementById('editForm');
 
 //check if alert is in url, if so, display alert
 urlParam = new URLSearchParams(window.location.search);
@@ -22,10 +23,9 @@ function fetchItems(){
     .then(json => displayItems(json))
     .catch(error => {
         // error message for API
-        errorMessage = document.createElement('div');
-        errorMessage.setAttribute('class', 'error');
-        errorMessage.textContent = "Error: " + error;
-        container.appendChild(errorMessage);
+        itemserror.setAttribute('class', 'error');
+        itemserror.textContent = "Failed to Fetch Items: " + error;
+        return;
     });
 }
 
@@ -43,45 +43,50 @@ function displayItems(data) {
     // dynamically create list of items and their markup
     data.forEach((item) => {
 
-        const itemrow = document.createElement('div');
-        itemrow.setAttribute('class', 'row');
-        // itemrow.addEventListener('click', () => {
-            // location.href=`oneItem.html?id=${item._id}`;
-        // });
+        let itemrow = document.createElement('div');
+        itemrow.setAttribute('class', 'row itemrow');
+        itemrow.addEventListener('click', () => {
+            location.href=`oneItem.html?id=${item._id}`;
+        });
 
-        const id = document.createElement('div');
-        id.setAttribute('class', 'col-3 rowcol');
-        id.textContent = "ID: " + item._id;
+        let id = document.createElement('div');
+        id.setAttribute('class', 'col-md-auto rowcol');
+        id.setAttribute('id', 'idcol');
+        id.innerHTML = "<b>ID:&nbsp;</b>" + item._id;
         
-        const name = document.createElement('div');
-        name.setAttribute('class', 'col-2 rowcol');
-        name.textContent = "Name: " + item.name;
+        let name = document.createElement('div');
+        name.setAttribute('id', 'namecol');
+        name.setAttribute('class', 'col-md-auto rowcol');
+        name.innerHTML = "<b>Name:&nbsp;</b>" + item.name;
 
-        const desc = document.createElement('div');
-        desc.setAttribute('class', 'col-2 rowcol');
-        desc.textContent =  "Desc: " + item.desc;
+        let desc = document.createElement('div');
+        desc.setAttribute('id', 'desccol');
+        desc.setAttribute('class', 'col-md-auto rowcol');
+        desc.innerHTML =  "<b>Desc:&nbsp;</b>" + item.desc;
 
-        const price = document.createElement('div');
-        price.setAttribute('class', 'col-1 rowcol');
-        price.textContent =  "Price: " + item.price;
+        let price = document.createElement('div');
+        price.setAttribute('id', 'pricecol');
+        price.setAttribute('class', 'col-md-auto rowcol');
+        price.innerHTML =  "<b>Price:&nbsp;</b>" + item.price;
 
-        const qty = document.createElement('div');
-        qty.setAttribute('class', 'col-1 rowcol');
-        qty.textContent =  "Qty: " + item.quantity;
+        let qty = document.createElement('div');
+        qty.setAttribute('id', 'qtycol');
+        qty.setAttribute('class', 'col-md-auto rowcol');
+        qty.innerHTML =  "<b>Qty:&nbsp;</b>" + item.quantity;
 
         buttondiv = document.createElement('div');
         buttondiv.setAttribute('id', 'buttondiv');
-        buttondiv.setAttribute('class', 'col-2 rowcol');
-        buttondiv.setAttribute('align', 'right');
+        buttondiv.setAttribute('class', 'col-md-auto rowcol');
 
         // edit button
-        const editbtn = document.createElement('button');
+        let editbtn = document.createElement('button');
         editbtn.setAttribute('id', 'editBtn');
         editbtn.setAttribute('class', 'btn btn-secondary');
         editbtn.textContent = "Edit";
 
         // edit handler, puts data into modal
-        editbtn.addEventListener('click', () => {
+        editbtn.addEventListener('click', (e) => {
+            e.stopPropagation();
             $('#Modal').modal('toggle');
             $('#idInput').val(item._id);
             idInput.setAttribute('readonly', true);
@@ -92,13 +97,14 @@ function displayItems(data) {
         });
 
         // del button
-        const delbtn = document.createElement('button');
+        let delbtn = document.createElement('button');
         delbtn.setAttribute('id', 'deleteBtn');
         delbtn.setAttribute('class', 'btn btn-danger');
-        delbtn.textContent = "Delete";
+        delbtn.textContent = "Del";
 
-        // del handler, deletes item from api
-        delbtn.addEventListener('click', () => {
+        // del handler, dels item from api
+        delbtn.addEventListener('click', (e) => {
+            e.stopPropagation();
             fetch('http://127.0.0.1:8000/items/' + item._id, {
                 method: 'DELETE'
             })
@@ -119,21 +125,16 @@ function displayItems(data) {
         itemrow.appendChild(price);
         itemrow.appendChild(qty);
         itemrow.appendChild(buttondiv);
+        
         buttondiv.appendChild(editbtn);
         buttondiv.appendChild(delbtn);
 
         container.appendChild(itemrow);
-
-        br = document.createElement('br');
-        container.appendChild(br);
     });
 }
 
 //save modal button and handler
-saveEditModal = document.getElementById('saveModal');
-saveEditModal.addEventListener('click', () => {
-
-    const editForm = document.getElementById('form');
+function handleEdit(){
     
     if (editForm)
     {  //grab fields
@@ -144,7 +145,7 @@ saveEditModal.addEventListener('click', () => {
         qty = $('#quantityInput').val();
 
         //split into 2 piece "dict"
-        listKeys = ["Iid", "Name", "Desc", "Price", "Quantity"];
+        listKeys = ["Id", "Name", "Desc", "Price", "Quantity"];
         listValues = [id, name, desc, price, qty];
         listEmpty = [];
         formerror.textContent = "Please Fill Out: "
@@ -161,21 +162,20 @@ saveEditModal.addEventListener('click', () => {
             
         else{   //else, post data to api
             formerror.textContent = "";
-            handleEdit(id, name, desc, price, qty);
+            editItem(id, name, desc, price, qty);
         }
     }
     return
-});
+};
 
 //close modal button click, also empties form errors
-closeModal = document.getElementById('closeModal');
-closeModal.addEventListener('click', () => {
+function handleEditCancel(){
     $('#Modal').modal('hide');
     formerror.textContent = "";
-});
+};
 
 //handles edit for saving modal
-function handleEdit(id, name, desc, price, qty)
+function editItem(id, name, desc, price, qty)
 {
     // put request to api   
     fetch('http://127.0.0.1:8000/items/'+ id, {

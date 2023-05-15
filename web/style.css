@@ -1,76 +1,105 @@
+/* Common */
 html 
 {
     margin: 2%;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: 'Lato';font-size: auto;
 }
-.error 
-{
-    color: red;
-}
-.input 
-{
-    margin: 5px;
-    padding-top: 5px;
-}
-.row
-{
-    border : 1px solid grey;
-    border-radius: 15px;
-}
-.row:hover
-{
-    background-color: lightgray;
-}
-.rowcol
-{
-    margin: auto;
-}
-
-#deleteBtn {
-    margin-left: 1%;
-}
-.btn
-{
-    border-radius: 10px;
-    margin: 5%;
-}
-
 .navbar {
     padding-left: 1%;
     padding-right: 1%;
     margin-bottom: 1%;
     border-radius: 15px;
+    
+}
+.error 
+{
+    color: red;
 }
 
+/* Items page */
+.container
+{
+    background-color: rgb(231, 229, 229);
+    padding: 1%;
+    border: 1px solid grey;
+    border-radius: 15px;
+}
+.itemrow
+{   
+    margin: 1%;
+    padding: 1%;
+    border : 1px solid grey;
+    border-radius: 15px;
+    flex-wrap: row wrap;
+}
+.itemrow:hover
+{
+    background-color: lightgray;
+}
+.rowcol
+{
+    word-wrap: normal;
+    display : flex;
+    margin: auto;
+}
+.btn
+{
+    border-radius: 10px;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    margin-left: 1%;
+}
+#buttondiv
+{
+    margin-top: 1%;
+    margin-bottom: 1%;
+    margin-right: 1%;
+}
+
+/* Forms */
 .form-control
 {
     border: 1px solid grey;
 }
-
 .form-group {
-    padding-top: 1%;
-}
-
-#buttondiv {
-    padding-right: 0px;
-}
-
-#item
-{
-    width: 50%;
+    width: 70%;
     margin: auto;
+    padding-top: 1%;
+    padding-bottom: 1%;
 }
 
+/* Wrapper for forms and OneItem */
 .content
 {
+    background-color: lightgrey;
     margin: auto;
     padding: 1%;
     width: 50%;
     border: 1px solid lightgrey;
     border-radius: 15px;
 }
+#item
+{
+    width: 50%;
+    margin: auto;
+    padding-bottom: 2%;
+}
 
+/* OneItem */
 .list-group-item
 {
     text-align: left;
+    word-wrap: break-word;
 }
+
+/* Modal */
+.modal-dialog {
+    
+    min-width: 40%;
+    margin: 50px auto;
+}
+.modal-content
+{
+    background-color: lightgrey;
+}
+
