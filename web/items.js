@@ -92,7 +92,7 @@ function displayItems(data) {
 
         // del button
         let delbtn = document.createElement('button');
-        delbtn.setAttribute('id', 'deleteBtn');
+        delbtn.setAttribute('id', 'deleteItemBtn');
         delbtn.setAttribute('class', 'btn btn-danger');
         delbtn.textContent = "Del";
 
@@ -207,7 +207,7 @@ function alertbootstrap(type, content, refresh=false)
     else{
         let app = document.getElementById('root');
         const alert = document.createElement('div');
-        alert.setAttribute('class', 'position-fixed alert alert-' + type + ' alert-dismissible fade show');
+        alert.setAttribute('class', 'fixed-top alert alert-' + type + ' alert-dismissible fade show');
         alert.setAttribute('role', 'alert');
         alert.textContent = content;
         app.prepend(alert);

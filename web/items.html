@@ -23,19 +23,20 @@
             </div>
         </div>
         
-        <div class="modal fade" name="editModal" id="editModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal fade" name="editModal" id="editModal" tabindex="-1" role="dialog" aria-hidden="true" >
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 
-                    <div align="center">
+                    <div align="center" class="modal-title">
                         <br>
-                        <h3 class="modal-title" id="modalLabel" class="title">Edit an Existing Item:</h3>
-                        <hr>
+                        <h3>Edit an Existing Item:</h3>
+                        
                     </div>
+                    <hr>
                     
-                    <div>
-                        <form align="center" name="editForm" id="editForm" onSubmit="handleEdit(editForm)">
-                            
+                    <form align="center" name="editForm" id="editForm" onSubmit="handleEdit(editForm)">
+                        
+                        <div class="modal-form">
                             <div class="form-group">
                                 <input type="text" class="form-control" id="idInput" name="id" class="input" required maxlength="24" readonly>
                             </div>
@@ -46,24 +47,22 @@
                                 <input type="text" class="form-control" id="descInput" name="desc" placeholder="Description of Item" class="input" required maxlength="50">
                             </div>
                             <div class="form-group">
-                                <input type="number" class="form-control" id="priceInput" name="price" placeholder="Price of Item" class="input" required maxlength=5>
+                                <input type="number" class="form-control" id="priceInput" name="price" placeholder="Price of Item" class="input" required maxlength="5">
                             </div>
                             <div class="form-group">
                                 <input type="number" class="form-control" id="quantityInput" name="quantity" placeholder="Quantity of Item" class="input" required maxlength="5">
                             </div>
-                            
-                            <div align="center" >
-                                <p class="error" id="formerror"></p>
-                            </div>
-                            <hr>
-                            <div align="center">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="handleModalCancel()">Cancel</button>
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                            <br>
-                            
-                        </form>
-                    </div>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div align="center" class="modal-buttons">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="handleModalCancel()">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+
+                    </form>
+                    
                 </div>
             </div>
         </div>
@@ -72,25 +71,29 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 
-                    <div align="center">
+                    <div align="center" class="modal-title">
                         <br>
-                        <h3 class="modal-title" id="modalLabel" class="title">Delete item with id?:</h3>
-                        <hr>
+                        <h3> Delete item with ID: </h3>
+                        
                     </div>
+                    <hr>
                     
-                    <div>
-                        <form align="center" name="deleteForm" id="deleteForm" onSubmit="handleDelete(deleteForm)">
+                    <form align="center" name="deleteForm" id="deleteForm" onSubmit="handleDelete(deleteForm)">
+                        <div class="modal-form">
                             <div class="form-group">
                                 <input type="text" class="form-control" id="delId" name="delId" class="input" required maxlength="24">
                             </div>
-                            <hr>
-                            <div align="center">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="handleModalCancel()">Cancel</button>
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </div>
-                            <br>
-                        </form>
-                    </div>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div align="center" class="modal-buttons">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="handleModalCancel()">Cancel</button>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </div>
+                        
+                    </form>
+                    
                 </div>
             </div>
         </div>
