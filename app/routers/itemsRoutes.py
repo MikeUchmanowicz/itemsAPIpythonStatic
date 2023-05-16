@@ -32,11 +32,11 @@ async def read_item_by_id(request: Request, id: str):
     
     result = request.app.database["items"].find_one({"_id": ObjectId(id)})
     
-    if result:
-        result["_id"] = str(result["_id"])
-        return result
+    if not result:
+        raise HTTPException(status_code=404, detail=f"Item with id {id} not found")
     
-    raise HTTPException(status_code=404, detail=f"Item with id {id} not found")
+    result["_id"] = str(result["_id"])
+    return result
     
 #creates an item, returns the created item
 @router.post("/", response_description="Add new Item with request body")
@@ -44,11 +44,11 @@ async def create_item(request: Request, body=Body(...)):
     inserted_item = request.app.database["items"].insert_one(body)
     new_item = request.app.database["items"].find_one({"_id": inserted_item.inserted_id})
     
-    if new_item:
-        new_item["_id"] = str(new_item["_id"])
-        return new_item
-    
-    raise HTTPException(status_code=500, detail="Creation Failed")
+    if not new_item:
+        raise HTTPException(status_code=500, detail="Creation Failed")
+        
+    new_item["_id"] = str(new_item["_id"])
+    return new_item
 
 #updates an item, returns the updated item
 @router.put("/{id}", response_description="Edit Item with ID parameter")
@@ -57,24 +57,26 @@ async def update_item(request: Request, id: str, body = Body(...)):
     if (not ObjectId.is_valid(id)):
         raise HTTPException(status_code=400, detail="Invalid ID")
     
-    idExist = request.app.database["items"].find_one({"_id": ObjectId(id)})
-    if (not idExist):
-        raise HTTPException(status_code=404, detail=f"Item with id {id} not found")
-    
     update = request.app.database["items"].update_one({"_id": ObjectId(id)}, {"$set": body})
     
-    if (not idExist == body and update.modified_count == 1):
-        updated_item = request.app.database["items"].find_one({"_id": ObjectId(id)})
-        updated_item["_id"] = str(updated_item["_id"])
-        return updated_item
+    if not update.matched_count == 1:
+        raise HTTPException(status_code=404, detail=f"Item with id {id} not found")
+    
+    if not update.modified_count == 1:
+        raise HTTPException(status_code=304, detail=f"Item with id {id} was not modified")
+    
+    updated_item = request.app.database["items"].find_one({"_id": ObjectId(id)})
+    updated_item["_id"] = str(updated_item["_id"])
+    return updated_item
     
 #deletes an item, returns the item deleted
 @router.delete("/{item_id}", response_description="Delete Item with ID parameter")
 async def delete_item(request: Request, item_id: str):
     
     delete = request.app.database["items"].delete_one({"_id": ObjectId(item_id)})
-    if delete.deleted_count == 1:
-        return Response(status_code=204)
     
-    raise HTTPException(status_code=404, detail=f"Item with id {item_id} not found")
+    if not delete.deleted_count == 1:
+        raise HTTPException(status_code=404, detail=f"Item with id {item_id} not found")
+    
+    return Response(status_code=204)
     

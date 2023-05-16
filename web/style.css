@@ -4,19 +4,26 @@ html
     margin: 1%;
     font-family: 'Lato';font-size: auto;
 }
+/*Keep alert ontop of navbar*/
+.alert{
+    position: sticky;
+    z-index: 99;
+    width: 100%;
+}
 .navbar {
     padding-left: 1%;
     padding-right: 1%;
     margin-bottom: 1%;
-    border-radius: 15px;
+    border-radius: 10px;
+}
+/* Most Heading Tags in Content / Container */
+.title{
+    margin-top: 1%;
+    margin-bottom: 2%;
 }
 .error 
 {
     color: red;
-}
-.title{
-    margin-top: 1%;
-    margin-bottom: 2%;
 }
 /* Items page */
 .container
@@ -28,6 +35,7 @@ html
     width: 80%;
     padding: 1%;
 }
+/* individual item row */
 .itemrow
 {   
     margin: 3%;
@@ -41,44 +49,52 @@ html
 {
     background-color:  rgb(220, 220, 220);
 }
+/* column / property of each item row */
 .rowcol
 {
     word-wrap: normal;
     display : flex;
     margin: auto;
 }
+/* button grouping within item row */
 #buttondiv
 {
     margin-top: 1%;
     margin-bottom: 1%;
     margin-right: 1%;
 }
+/* all buttons */
 .btn
 {
     border-radius: 10px;
     margin: 1%;
 }
-#editBtn
+.btn-secondary
 {
     background-color: rgb(190, 190, 190);
 }
-#deleteBtn
+.btn-primary
+{
+    background-color: rgb(100, 130, 255);
+}
+.btn-danger
 {
     margin-left: 5%;
     background-color: rgb(255, 130, 130);
 }
 
-
 /* Forms */
 form{
-    padding-top: 1%;
+    
     padding-bottom: 1%;
 }
+/* input */
 .form-control
 {
     border: 1px solid rgb(220, 220, 220);
     padding: 2%;
 }
+/* input div */
 .form-group {
     width: 50%;
     margin-right: auto;
@@ -88,7 +104,6 @@ form{
     padding-top: 1%;
     padding-bottom: 1%;
 }
-
 /* Wrapper for forms and OneItem */
 .content
 {
@@ -100,8 +115,8 @@ form{
     margin-right: auto;
     padding: 1%;
     width: 65%;
-    
 }
+/* OneItem container */
 #item
 {
     width: 50%;
@@ -110,7 +125,7 @@ form{
     padding-top: 2%;
 }
 
-/* OneItem */
+/* OneItem display */
 .list-group-item
 {
     text-align: left;

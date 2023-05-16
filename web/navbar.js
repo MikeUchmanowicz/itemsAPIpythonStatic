@@ -1,7 +1,8 @@
-nav = document.getElementById('nav');
+let nav = document.getElementById('nav');
 
 let navbar = 
-`<nav class="navbar navbar-expand-lg navbar-light bg-light">
+`
+<nav class="navbar navbar-expand-md navbar-light bg-light">
     <a class="navbar-brand" href="#">Demo</a>
 
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
@@ -12,5 +13,7 @@ let navbar =
             <a class="nav-item nav-link active" href="edit.html">Edit Item</a>
         </div>
     </div>
-</nav>`;
+</nav>
+`;
+
 nav.innerHTML = navbar;
