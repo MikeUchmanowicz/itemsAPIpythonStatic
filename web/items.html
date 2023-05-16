@@ -12,26 +12,29 @@
 
         <div id="nav"></div>
 
-        <div align="center">
-            <h3> Current Inventory </h3>
-            <h5 id="itemserror" ></h5>
-        </div>
+        
 
         <br>
-        <div id="items"></div>
+        <div id="items">
+            <div align="center">
+                <h3 class="title"> Current Inventory </h3>
+                <h5 id="itemserror" ></h5>
+            </div>
+        </div>
         
         <div class="modal fade" name="Modal" id="Modal" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalLabel">Edit an Existing Item</h5>
+                    <div align="center">
+                        <br>
+                        <h3 class="modal-title" id="modalLabel" class="title">Edit an Existing Item</h3>
+                        <hr>
                     </div>
-                    <hr>
-
-                    <div class="modal-body">
-                        <form align="center" id="editForm" change="validate()"></form>
-                            <br>
+                    
+                    <div>
+                        <form align="center" name="editForm" id="editForm" onSubmit="handleEdit(editForm)">
+                            
                             <div class="form-group">
                                 <input type="text" class="form-control" id="idInput" name="id" placeholder="Id of Item" class="input" required maxlength="24">
                             </div>
@@ -47,16 +50,17 @@
                             <div class="form-group">
                                 <input type="number" class="form-control" id="quantityInput" name="quantity" placeholder="Quantity of Item" class="input" required maxlength="5">
                             </div>
-                            <br>
+                            
                             <div align="center" >
                                 <p class="error" id="formerror"></p>
                             </div>
                             <hr>
                             <div align="center">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="handleEditCancel()">Close</button>
-                                <button type="submit" class="btn btn-primary" onclick="handleEdit()">Submit</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
                             <br>
+                            
                         </form>
                     </div>
                 </div>

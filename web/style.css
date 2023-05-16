@@ -1,7 +1,7 @@
 /* Common */
 html 
 {
-    margin: 2%;
+    margin: 1%;
     font-family: 'Lato';font-size: auto;
 }
 .navbar {
@@ -9,32 +9,37 @@ html
     padding-right: 1%;
     margin-bottom: 1%;
     border-radius: 15px;
-    
 }
 .error 
 {
     color: red;
 }
-
+.title{
+    margin-top: 1%;
+    margin-bottom: 2%;
+}
 /* Items page */
 .container
 {
-    background-color: rgb(231, 229, 229);
-    padding: 1%;
-    border: 1px solid grey;
+    background-color: rgb(240, 240, 240);
+    border : 1px solid rgb(220, 220, 220);
     border-radius: 15px;
+    max-width: 1920px;
+    width: 80%;
+    padding: 1%;
 }
 .itemrow
 {   
-    margin: 1%;
+    margin: 3%;
     padding: 1%;
-    border : 1px solid grey;
+    border : 1px solid rgb(220, 220, 220);
+    background-color: rgb(255,255,255);
     border-radius: 15px;
     flex-wrap: row wrap;
 }
 .itemrow:hover
 {
-    background-color: lightgray;
+    background-color:  rgb(220, 220, 220);
 }
 .rowcol
 {
@@ -42,28 +47,44 @@ html
     display : flex;
     margin: auto;
 }
-.btn
-{
-    border-radius: 10px;
-    padding-top: 1%;
-    padding-bottom: 1%;
-    margin-left: 1%;
-}
 #buttondiv
 {
     margin-top: 1%;
     margin-bottom: 1%;
     margin-right: 1%;
 }
+.btn
+{
+    border-radius: 10px;
+    margin: 1%;
+}
+#editBtn
+{
+    background-color: rgb(190, 190, 190);
+}
+#deleteBtn
+{
+    margin-left: 5%;
+    background-color: rgb(255, 130, 130);
+}
+
 
 /* Forms */
+form{
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
 .form-control
 {
-    border: 1px solid grey;
+    border: 1px solid rgb(220, 220, 220);
+    padding: 2%;
 }
 .form-group {
-    width: 70%;
-    margin: auto;
+    width: 50%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 1%;
+    margin-bottom: 1%;
     padding-top: 1%;
     padding-bottom: 1%;
 }
@@ -71,18 +92,22 @@ html
 /* Wrapper for forms and OneItem */
 .content
 {
-    background-color: lightgrey;
-    margin: auto;
-    padding: 1%;
-    width: 50%;
+    background-color: rgb(240, 240, 240);
     border: 1px solid lightgrey;
     border-radius: 15px;
+    margin-top: 2%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1%;
+    width: 65%;
+    
 }
 #item
 {
     width: 50%;
     margin: auto;
     padding-bottom: 2%;
+    padding-top: 2%;
 }
 
 /* OneItem */
@@ -90,6 +115,8 @@ html
 {
     text-align: left;
     word-wrap: break-word;
+    padding: 1%;
+    margin: 1%;
 }
 
 /* Modal */
@@ -100,6 +127,6 @@ html
 }
 .modal-content
 {
-    background-color: lightgrey;
+    background-color: rgb(240, 240, 240);
 }
 

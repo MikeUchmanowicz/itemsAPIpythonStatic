@@ -12,13 +12,13 @@ formerror.textContent = "";
 const editForm = document.getElementById('editForm');
 
 //check if alert is in url, if so, display alert
-urlParam = new URLSearchParams(window.location.search);
+let urlParam = new URLSearchParams(window.location.search);
 if (urlParam.has('alert'))
     alertbootstrap(urlParam.get('type'), urlParam.get('content'));
 
 //fetch data from api
 function fetchItems(){
-    fetch('http://127.0.0.1:8000/items')
+    fetch('http://18.214.23.15:8080/items')
     .then(data => data.json())
     .then(json => displayItems(json))
     .catch(error => {
@@ -105,7 +105,7 @@ function displayItems(data) {
         // del handler, dels item from api
         delbtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            fetch('http://127.0.0.1:8000/items/' + item._id, {
+            fetch('http://18.214.23.15:8080/items/' + item._id, {
                 method: 'DELETE'
             })
             .then(function(response) {
@@ -134,34 +134,40 @@ function displayItems(data) {
 }
 
 //save modal button and handler
-function handleEdit(){
+function handleEdit(form){
     
-    let id = $('#idInput').val();
-    let name = $('#nameInput').val();
-    let desc = $('#descInput').val();
-    let price = $('#priceInput').val();
-    let qty = $('#quantityInput').val();
+    let data = new FormData(form);
+    let formData = Object.fromEntries(data);
 
-    //split into 2 piece "dict"
-    let listKeys = ["Id", "Name", "Desc", "Price", "Quantity"];
-    let listValues = [id, name, desc, price, qty];
-    let listEmpty = [];
-    formerror.textContent = "Please Fill Out: "
+    let id = formData.id;
+    let name = formData.name;
+    let desc = formData.desc;
+    let price = formData.price;
+    let qty = formData.quantity
 
-    // check for empty values, add key to empty list
-    for (let i in listValues)
-        if (listValues[i] == "")
-            listEmpty.push(listKeys[i]);
+    // //split into 2 piece "dict"
+    // let listKeys = ["Id", "Name", "Desc", "Price", "Quantity"];
+    // let listValues = [id, name, desc, price, qty];
+    // let listEmpty = [];
+    // formerror.textContent = "Please Fill Out: "
 
-    // if list of empty values, add key of value to error message
-    if (listEmpty.length > 0)
-        for (let i in listEmpty)
-            formerror.textContent += listEmpty[i] + ", ";
+    // // check for empty values, add key to empty list
+    // for (let i in listValues)
+    //     if (listValues[i] == "")
+    //         listEmpty.push(listKeys[i]);
+
+    // // if list of empty values, add key of value to error message
+    // if (listEmpty.length > 0)
+    //     for (let i in listEmpty)
+    //         formerror.textContent += listEmpty[i] + ", ";
+            
         
-    else{   //else, post data to api
-        formerror.textContent = "";
-        editItem(id, name, desc, price, qty);
-    }
+    // else{   //else, post data to api
+    //     formerror.textContent = "";
+    //     editItem(id, name, desc, price, qty);
+    // }
+    
+    editItem(id, name, desc, price, qty);
 };
 
 //close modal button click, also empties form errors
@@ -174,7 +180,7 @@ function handleEditCancel(){
 function editItem(id, name, desc, price, qty)
 {
     // put request to api   
-    fetch('http://127.0.0.1:8000/items/'+ id, {
+    fetch('http://18.214.23.15:8080/items/'+ id, {
         method: 'PUT',
         body: JSON.stringify({
             name: name,
@@ -210,8 +216,8 @@ function alertbootstrap(type, content, refresh=false)
     }
 
     // create alert
-    let  app = document.getElementById('root');
-    let  alert = document.createElement('div');
+    const app = document.getElementById('root');
+    const alert = document.createElement('div');
     alert.setAttribute('class', 'alert alert-' + type + ' alert-dismissible fade show');
     alert.setAttribute('role', 'alert');
     alert.textContent = content;
