@@ -141,10 +141,10 @@ function handleDelete(event, form){
 };
 
 // deletes item with id
- function deleteItem(id)
+ async function deleteItem(id)
 {
     // DELETE request to api
-    fetch('http://18.214.23.15:8080/items/' + id, {
+    await fetch('http://18.214.23.15:8080/items/' + id, {
         method: 'DELETE'
     })
     .then(function(response) {
@@ -174,12 +174,12 @@ function handleEdit(event, form){
 };
 
 // edits item with id obtained from form
-function editItem(formData)
+async function editItem(formData)
 {
     let id = formData.id
     
     // PUT request to api   
-    let response = fetch('http://18.214.23.15:8080/items/'+ id, {
+    await fetch('http://18.214.23.15:8080/items/'+ id, {
         method: 'PUT',
         body: JSON.stringify({
             name: formData.name,

@@ -11,10 +11,10 @@ function handleCreate(event, form)
 }
 
 // creates item
-function createItem(formData)
+async function createItem(formData)
 {
     // POST request to api
-    fetch('http://18.214.23.15:8080/items/', {
+    await fetch('http://18.214.23.15:8080/items/', {
         method: 'POST',
         body: JSON.stringify({
             name: formData.name,
@@ -52,12 +52,12 @@ function handleEdit(event, form){
 };
 
 // edit item by id with form data
-function editItem(formData)
+async function editItem(formData)
 {
     let id = formData.id
     
     // PUT request to api   
-    let response = fetch('http://18.214.23.15:8080/items/'+ id, {
+    await fetch('http://18.214.23.15:8080/items/'+ id, {
         method: 'PUT',
         body: JSON.stringify({
             name: formData.name,
