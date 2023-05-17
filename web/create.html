@@ -6,6 +6,7 @@
         <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
         <link href="style.css" rel="stylesheet" />
+        <link id="favicon" rel="icon" type="image/x-icon" href="/static/favicon.ico">
     </head>
 
     <body id="root">
@@ -15,7 +16,8 @@
         <div align="center" class="content">
             <h3 class="title"> Create a New Item </h3>
             <hr>
-            <form align="center" id="createform" name="createForm" onsubmit="handleCreate(createForm)">
+            <form align="center" id="createform" name="createForm" onsubmit="handleCreate(event, createForm)">
+                
                 <div class="form">
                     <div class="form-group">
                         <input type="text" name="name" class="form-control" id="name" placeholder="Name of Item" class="input" required maxlength="20">
@@ -32,16 +34,15 @@
                 </div>
 
                 <hr>
-
                 <button type="submit" class="btn btn-primary">Submit</button>
-
             </form>
         </div>
         
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-        <script src="forms.js"></script>
+        
         <script src="navbar.js"></script>
+        <script src="forms.js"></script>
 
     </body>
 

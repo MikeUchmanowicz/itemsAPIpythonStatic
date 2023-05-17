@@ -1,40 +1,40 @@
-//setup page
-const container = document.getElementById('items')
-container.setAttribute('class', 'container')
+// upon document load
+document.addEventListener("DOMContentLoaded", () => {
+  
+    // check if alert is in url, if so, display alert
+    let urlParam = new URLSearchParams(window.location.search);
+    if (urlParam.has('alert'))
+        alertbootstrap(urlParam.get('type'), urlParam.get('content'));
+    
+    // fetch items and create html for them
+    fetchItems()
+});
 
-// define errors
-const itemserror = document.getElementById('itemserror');
-
-//check if alert is in url, if so, display alert
-let urlParam = new URLSearchParams(window.location.search);
-if (urlParam.has('alert'))
-    alertbootstrap(urlParam.get('type'), urlParam.get('content'));
-
-//fetch data from api
-function fetchItems(){
-    fetch('http://18.214.23.15:8080/items')
+// fetch data from API, THEN call displayItems
+async function fetchItems(){
+    //GET request to API
+    await fetch('http://18.214.23.15:8080/items')
     .then(data => data.json())
     .then(json => displayItems(json))
     .catch(error => {
         // error message for API
+        let itemserror = document.getElementById('itemserror');
         itemserror.setAttribute('class', 'error');
         itemserror.textContent = "Failed to Fetch Items: " + error;
         return;
     });
 }
 
-fetchItems()
-
-//dynamically create list of items according to data fetched from api
+//dynamically create list of items according to API data
 function displayItems(data) {
     
     if (data.length === 0) {    //if no items, display error
+    let itemserror = document.getElementById('itemserror');
         itemserror.setAttribute('class', 'error');
         itemserror.textContent = "No Items Found";
         return;
     }
 
-    // dynamically create list of items and their markup
     data.forEach((item) => {
 
         let itemrow = document.createElement('div');
@@ -78,12 +78,11 @@ function displayItems(data) {
         editbtn.setAttribute('class', 'btn btn-secondary');
         editbtn.textContent = "Edit";
 
-        // edit handler, puts data into modal
+        // editBtn handler, puts item data into modal
         editbtn.addEventListener('click', (e) => {
             e.stopPropagation();
             $('#editModal').modal('show');
             $('#idInput').val(item._id);
-            //idInput.setAttribute('readonly', true);
             $('#nameInput').val(item.name);
             $('#descInput').val(item.desc);
             $('#priceInput').val(item.price);
@@ -96,13 +95,16 @@ function displayItems(data) {
         delbtn.setAttribute('class', 'btn btn-danger');
         delbtn.textContent = "Del";
 
-        // delete handler, puts data into modal
+        // delBtn handler, puts data into modal
         delbtn.addEventListener('click', (e) => {
             e.stopPropagation();
             $('#delModal').modal('show');
             $('#delId').val(item._id);
-            //idInput.setAttribute('readonly', true);
         });
+        
+        //define base container
+        let container = document.getElementById('items')
+        container.setAttribute('class', 'container')
         
         // append to container
         itemrow.appendChild(id);
@@ -119,80 +121,89 @@ function displayItems(data) {
     });
 }
 
-//save modal button and handler
-function handleEdit(form){
-    
-    let data = new FormData(form);
-    let formData = Object.fromEntries(data);
-
-    let id = formData.id;
-    let name = formData.name;
-    let desc = formData.desc;
-    let price = formData.price;
-    let qty = formData.quantity
-    
-    editItem(id, name, desc, price, qty);
-};
-
-function handleDelete(form){
-    
-    let data = new FormData(form);
-    let formData = Object.fromEntries(data);
-
-    let delId = formData.delId;
-
-
-    deleteItem(delId);
-};
-
-//close modal button click, also empties form errors
+//close modal button click
 function handleModalCancel(){
     $('#editModal').modal('hide');
     $('#delModal').modal('hide');
     
 };
 
-async function deleteItem(id)
+// delete modal submit button handler
+function handleDelete(event, form){
+    //prevent refresh and url change
+    event.preventDefault();
+    
+    let data = new FormData(form);
+    let formData = Object.fromEntries(data);
+    let delId = formData.delId;
+
+    deleteItem(delId);
+};
+
+// deletes item with id
+ function deleteItem(id)
 {
-    await fetch('http://18.214.23.15:8080/items/' + id, {
+    // DELETE request to api
+    fetch('http://18.214.23.15:8080/items/' + id, {
         method: 'DELETE'
     })
     .then(function(response) {
         $('#delModal').modal('hide');
-        alertbootstrap("success", `Item ${id}: Deleted Successfully! Status: ${response.status}`, refresh=true);
-
-    })
-    .catch(error => {
+        
+        // alert according to response
+        if (!(response.status == 200 || 204))
+            alertbootstrap("danger", `Item ${id}: Failed to Delete! Error: ${response.status}`);
+        else    
+            alertbootstrap("success", `Item ${id}: Deleted Successfully! Status: ${response.status}`, refresh=true);
+    }) 
+    .catch(error => { //catch error, alert message
         console.log(error);
         alertbootstrap("danger", `Item ${id}: Failed to Delete! Error: ${error}`);
     });
-
 }
-//handles edit for saving modal
-async function editItem(id, name, desc, price, qty)
+
+//save modal form submit button handler
+function handleEdit(event, form){
+    //prevent refresh and url change
+    event.preventDefault();
+    
+    let data = new FormData(form);
+    let formData = Object.fromEntries(data);
+
+    editItem(formData);
+};
+
+// edits item with id obtained from form
+function editItem(formData)
 {
-    // put request to api   
-    await fetch('http://18.214.23.15:8080/items/'+ id, {
+    let id = formData.id
+    
+    // PUT request to api   
+    let response = fetch('http://18.214.23.15:8080/items/'+ id, {
         method: 'PUT',
         body: JSON.stringify({
-            name: name,
-            desc: desc,
-            price: price,
-            quantity: qty
+            name: formData.name,
+            desc: formData.desc,
+            price: parseInt(formData.price),
+            quantity: parseInt(formData.quantity)
         }),
         headers: {
             "Content-type": "application/json; charset=UTF-8"
         }
-    })  //redirect
+    })
     .then(function(response) {
         $('#editModal').modal('hide');
-        if (response.status == 404 || response.status == 400){
+        
+        // alert according to response
+        if (response.status == 404 || response.status == 400)
             alertbootstrap("danger", `Item ${id}: Failed to Edit! Status: ${response.status}: ${response.statusText}`);
-        }
+        else if (response.status == 304)
+            alertbootstrap("secondary", `Item ${id}: Not Modified Status: ${response.status}: ${response.statusText}`);
         else
             alertbootstrap("success", `Item ${id}: Edited Successfully! Status: ${response.status}: ${response.statusText}`, refresh=true);
-    }) //catch error, display message
-    .catch(error => {
+        
+    })
+    .catch(error => { //catch error, alert message
         console.log(error);
         alertbootstrap("danger", `Item ${id}: Failed to Edit! Error: ${error}}`);
     });
@@ -201,20 +212,27 @@ async function editItem(id, name, desc, price, qty)
 // bootstrap alert, refreshes page if refresh=true
 function alertbootstrap(type, content, refresh=false)
 {
-    // define alert after redirect tthrough url parameters
+    //if refresh, first refresh, dom will call alert on load through url params.
     if (refresh)
-        location.href=`items.html?alert=true&type=${type}&content=${content}`;
-    else{
-        let app = document.getElementById('root');
-        const alert = document.createElement('div');
-        alert.setAttribute('class', 'fixed-top alert alert-' + type + ' alert-dismissible fade show');
-        alert.setAttribute('role', 'alert');
-        alert.textContent = content;
-        app.prepend(alert);
+        window.location.href=`items.html?alert=true&type=${type}&content=${content}`;
+    
+    //define root and append newly created alert
+    let app = document.getElementById('root');
+    let alert = document.createElement('div');
+    let alertcontent = document.createElement('div');
+    
+    alert.setAttribute('class', 'alert alert-' + type + ' alert-dismissible fade show');
+    alert.setAttribute('role', 'alert');
+    alert.setAttribute('align', 'center');
+    
+    alertcontent.textContent = content;
 
-        // close alert after 2.5 seconds
-        $(".alert").delay(2500).slideUp(1000, function() {
-            $(this).alert('close');    
-        });
-    }
+    alert.appendChild(alertcontent);
+    app.prepend(alert);
+
+    // close alert after 2.5 seconds
+    $(".alert").delay(1500).slideUp(1000, function() {
+        $(this).alert('close');  
+        
+    });
 }

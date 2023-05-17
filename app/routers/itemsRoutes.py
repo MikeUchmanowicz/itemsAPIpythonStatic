@@ -13,7 +13,7 @@ router = APIRouter(
 )
 
 #gets all items, returns a list of items
-@router.get("/", response_description="GETS all items")
+@router.get("", response_description="GETS all items")
 async def read_items(request: Request):
     result = request.app.database["items"].find()
     list_result = list(result)
@@ -39,7 +39,7 @@ async def read_item_by_id(request: Request, id: str):
     return result
     
 #creates an item, returns the created item
-@router.post("/", response_description="Add new Item with request body")
+@router.post("", response_description="Add new Item with request body")
 async def create_item(request: Request, body=Body(...)):
     inserted_item = request.app.database["items"].insert_one(body)
     new_item = request.app.database["items"].find_one({"_id": inserted_item.inserted_id})
@@ -48,7 +48,7 @@ async def create_item(request: Request, body=Body(...)):
         raise HTTPException(status_code=500, detail="Creation Failed")
         
     new_item["_id"] = str(new_item["_id"])
-    return new_item
+    return JSONResponse(content={"message": f"Item with id {id} was updated", "item": new_item}, status_code=201)
 
 #updates an item, returns the updated item
 @router.put("/{id}", response_description="Edit Item with ID parameter")
@@ -65,9 +65,7 @@ async def update_item(request: Request, id: str, body = Body(...)):
     if not update.modified_count == 1:
         raise HTTPException(status_code=304, detail=f"Item with id {id} was not modified")
     
-    updated_item = request.app.database["items"].find_one({"_id": ObjectId(id)})
-    updated_item["_id"] = str(updated_item["_id"])
-    return updated_item
+    return JSONResponse(content={"message": f"Item with id {id} was modified", "item": body}, status_code=200)
     
 #deletes an item, returns the item deleted
 @router.delete("/{item_id}", response_description="Delete Item with ID parameter")
@@ -78,5 +76,5 @@ async def delete_item(request: Request, item_id: str):
     if not delete.deleted_count == 1:
         raise HTTPException(status_code=404, detail=f"Item with id {item_id} not found")
     
-    return Response(status_code=204)
+    return Response(content=f"Item with id {item_id} deleted", status_code=200)
     
